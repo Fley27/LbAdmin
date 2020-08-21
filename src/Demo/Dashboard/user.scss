@@ -1,0 +1,82 @@
+.main-content {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
+  margin-top: 40px;
+  border-radius: 10px;
+
+  .card-header {
+    width: 97%;
+    margin: 0 auto;
+    background: rgba(235, 26, 26, 0.863);
+    color: rgba(240, 240, 240, 0.918);
+    h4 {
+      color: #fff;
+    }
+    border-radius: 5px;
+    margin-top: -20px;
+  }
+
+  .card-body {
+    width: 97%;
+    margin: 0 auto;
+  }
+
+  .table-responsive {
+    color: rgb(26, 25, 25);
+    th {
+      color: rgb(201, 46, 221);
+      border-top: 0;
+    }
+    td {
+      button {
+        border: 0;
+        background: none;
+        outline: none;
+
+        .danger {
+          color: rgb(196, 20, 20);
+        }
+
+        .warning {
+          color: rgb(196, 155, 20);
+        }
+      }
+    }
+  }
+}
+
+.left-card {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.error-outline {
+  margin: 0 auto;
+  color: rgb(189, 148, 62);
+  font-size: 120px;
+  font-weight: n;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.border {
+  border: 0;
+}
+
+.container-footer {
+  .bottom-primary {
+    background: rgb(12, 102, 0);
+    color: #fff;
+    border: 0;
+  }
+
+  .bottom-danger {
+    background: rgb(202, 26, 26);
+    color: #fff;
+    border: 0;
+  }
+
+  margin: 15px auto;
+}

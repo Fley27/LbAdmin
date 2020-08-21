@@ -1,0 +1,11 @@
+.auth-wrapper {
+  width: 100%;
+}
+
+.auth-wrapper .signup {
+  width: 70%;
+}
+
+form {
+  text-align: left;
+}
