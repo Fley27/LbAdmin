@@ -38,6 +38,46 @@ export default {
               type: "item",
               url: "/dashboard/challenge",
             },
+            {
+              id: "type",
+              title: "Type",
+              type: "collapse",
+              icon: "feather icon-clock",
+              children: [
+                {
+                  id: "Create New",
+                  title: "Create New",
+                  type: "item",
+                  url: "/challenge/addchallengetype",
+                },
+                {
+                  id: "View Challenge Type",
+                  title: "View Challenge Type",
+                  type: "item",
+                  url: "/challenge/challengetype",
+                },
+              ],
+            },
+            {
+              id: "category",
+              title: "Category",
+              type: "collapse",
+              icon: "feather icon-clock",
+              children: [
+                {
+                  id: "Create New",
+                  title: "Create New",
+                  type: "item",
+                  url: "/challenge/addchallengecategory",
+                },
+                {
+                  id: "view challenge category",
+                  title: "View Challenge Category",
+                  type: "item",
+                  url: "/challenge/challengecategory",
+                },
+              ],
+            },
           ],
         },
       ],

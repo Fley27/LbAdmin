@@ -21,7 +21,7 @@ class AddChallenge extends Component {
       category: "",
       type: "",
       appUsage: [],
-      profileType: "1",
+      profileType: "",
       senderSex: "",
       receiverSex: "",
       image: "",
@@ -159,6 +159,9 @@ class AddChallenge extends Component {
                               as='select'
                               className='mb-3'
                             >
+                              <option value=''>
+                                Seleccionar una tipologia
+                              </option>
                               <option value='1'>Soltero</option>
                               <option value='2'>Pareja</option>
                             </Form.Control>
@@ -244,48 +247,46 @@ class AddChallenge extends Component {
                           </Col>
                         </Row>
                       </Col>
-                    ) : (
-                      this(
-                        <Col className='w-80'>
-                          <Row>
-                            <Col className='w-40'>
-                              <Multi
-                                name='senderPair'
-                                label='Parte 1. Pareja Remitante'
-                                items={Pair}
-                                HandleChange={this.HandleChange}
-                              />
-                            </Col>
-                            <Col className='w-40'>
-                              <Multi
-                                name='senderPair'
-                                label='Parte 2. Pareja Remitante'
-                                items={Pair}
-                                HandleChange={this.HandleChange}
-                              />
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col className='w-40'>
-                              <Multi
-                                name='receiverPair'
-                                label='Parte 1. Pareja Destinatario'
-                                items={Pair}
-                                HandleChange={this.HandleChange}
-                              />
-                            </Col>
-                            <Col className='w-40'>
-                              <Multi
-                                name='receiverPair'
-                                label='Parte 2. Pareja Destinatario'
-                                items={Pair}
-                                HandleChange={this.HandleChange}
-                              />
-                            </Col>
-                          </Row>
-                        </Col>
-                      )
-                    )}
+                    ) : this.state.profileType === "2" ? (
+                      <Col className='w-80'>
+                        <Row>
+                          <Col className='w-40'>
+                            <Multi
+                              name='senderPair'
+                              label='Parte 1. Pareja Remitante'
+                              items={Pair}
+                              HandleChange={this.HandleChange}
+                            />
+                          </Col>
+                          <Col className='w-40'>
+                            <Multi
+                              name='senderPair'
+                              label='Parte 2. Pareja Remitante'
+                              items={Pair}
+                              HandleChange={this.HandleChange}
+                            />
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col className='w-40'>
+                            <Multi
+                              name='receiverPair'
+                              label='Parte 1. Pareja Destinatario'
+                              items={Pair}
+                              HandleChange={this.HandleChange}
+                            />
+                          </Col>
+                          <Col className='w-40'>
+                            <Multi
+                              name='receiverPair'
+                              label='Parte 2. Pareja Destinatario'
+                              items={Pair}
+                              HandleChange={this.HandleChange}
+                            />
+                          </Col>
+                        </Row>
+                      </Col>
+                    ) : null}
 
                     <Col className='w-80'>
                       <Row>
