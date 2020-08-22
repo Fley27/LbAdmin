@@ -20,11 +20,7 @@ export const uploadImage = (formData) => async (dispatch) => {
     const res = await axios.post(
       `http://localhost:5000/api/image/upload`,
       formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
+      config
     );
     dispatch({
       type: UPLOAD_IMAGE_SUCCESS,
