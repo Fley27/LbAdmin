@@ -13,108 +13,151 @@ import {
   DELETE_CHALLENGE_REQUEST,
   DELETE_CHALLENGE_SUCCESS,
   DELETE_CHALLENGE_FAIL,
+  SELECT_CHALLENGE_REQUEST,
+  SELECT_CHALLENGE_SUCCESS,
+  SELECT_CHALLENGE_FAIL,
 } from "../const";
 
-import React, { Component } from "react";
-
-import { Col, Button, Form, Card, Row } from "react-bootstrap";
-
-import "./user.scss";
-
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { editCoinsUser } from "../../redux/actions/user";
-class AddCoins extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      numero: "",
-      accion: "",
-    };
-  }
-
-  handleChange = (e) => {
-    console.log(
-      "targeting state " + e.target.id + " with value " + e.target.value
-    );
-    this.setState({ [e.target.id]: e.target.value });
+export const addChallenge = (data) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
+  const body = JSON.stringify(data);
+  dispatch({
+    type: ADD_CHALLENGE_REQUEST,
+  });
 
-  onSubmit = (e) => {
-    e.preventDefault();
-  };
-
-  render() {
-    return (
-      <Row md={12}>
-        <Col md={8}>
-          <div className='main-content'>
-            <div className='container-fluid'>
-              <div className='row'>
-                <div className='col-md-12'>
-                  <div className='card'>
-                    <div className='card-header card-header-danger'>
-                      <h4 className='card-title '>
-                        Editar monedas del Usuario
-                      </h4>
-                    </div>
-                    <div className='card-body'>
-                      <Col>
-                        <Form onSubmit={this.onSubmit} md={12}>
-                          <Row>
-                            <Form.Group>
-                              <Form.Label>Elige una acción*</Form.Label>
-                              <Form.Control
-                                onChange={this.handleChange}
-                                value={this.state.accion}
-                                id='accion'
-                                as='select'
-                                className='mb-3'
-                              >
-                                <option value='add'>Anadir monedas</option>
-                                <option value='minus'>Sustraer monedas</option>
-                              </Form.Control>
-                            </Form.Group>
-                            <Form.Group>
-                              <Form.Label>Número*</Form.Label>
-                              <Form.Control
-                                onChange={this.handleChange}
-                                value={this.state.numero}
-                                id='numero'
-                                type='number'
-                                placeholder='Cantidad de monedas'
-                              />
-                            </Form.Group>
-                          </Row>
-                          <Col md={8}>
-                            <Button variant='danger' type='submit'>
-                              ACTUALIZAR
-                            </Button>
-                          </Col>
-                        </Form>
-                      </Col>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Col>
-      </Row>
+  try {
+    const res = await axios.post(
+      `http://localhost:5000/api/challenge`,
+      body,
+      config
     );
+    dispatch({
+      type: ADD_CHALLENGE_SUCCESS,
+      payload: res.data.challenge,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_CHALLENGE_FAIL,
+    });
   }
-}
-
-AddCoins.propTypes = {
-  auth: PropTypes.object.isRequired,
-  editCoinsUser: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  user: state.user,
-});
-export default connect(mapStateToProps, { editCoinsUser })(
-  withRouter(AddCoins)
-);
+export const editChallenge = (challengeData) => async (
+  dispatch
+) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const body = JSON.stringify(challengeData);
+  dispatch({
+    type: EDIT_CHALLENGE_REQUEST,
+  });
+
+  try {
+    const { id } = challengeData;
+    const params = id;
+    const res = await axios.put(
+      `http://localhost:5000/api/challenge/${params}`,
+      body,
+      config
+    );
+    dispatch({
+      type: EDIT_CHALLENGE_SUCCESS,
+      payload: res.data.challenge,
+    });
+  } catch (error) {
+    dispatch({
+      type: EDIT_CHALLENGE_FAIL,
+    });
+  }
+};
+
+export const deleteChallenge = (challengeData) => async (
+  dispatch
+) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  dispatch({
+    type: DELETE_CHALLENGE_REQUEST,
+  });
+
+  try {
+    const { _id } = challengeData;
+    const res = await axios.delete(
+      `http://localhost:5000/api/challenge/${_id}`,
+      config
+    );
+    dispatch({
+      type: DELETE_CHALLENGE_SUCCESS,
+      payload: res.data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_CHALLENGE_FAIL,
+    });
+    dispatch(setAlert(`Error ${error}`, "danger"));
+  }
+};
+
+export const loadChallenge = () => async (dispatch) => {
+  dispatch({
+    type: FETCH_CHALLENGE_REQUEST,
+  });
+
+  try {
+    const res = await axios.get(`http://localhost:5000/api/challenge`);
+    dispatch({
+      type: FETCH_CHALLENGE_SUCCESS,
+      payload: res.data.challenges,
+    });
+
+    dispatch(setAlert(`Exito`, "primary"));
+  } catch (error) {
+    dispatch({
+      type: FETCH_CHALLENGE_FAIL,
+    });
+    dispatch(setAlert(`Error ${error}`, "danger"));
+  }
+};
+
+export const selectChallenge = (challengeData) => async (
+  dispatch
+) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const body = JSON.stringify(challengeData);
+  dispatch({
+    type: SELECT_CHALLENGE_REQUEST,
+  });
+
+  try {
+    const res = await axios.post(
+      `http://localhost:5000/api/challenge/select`,
+      body,
+      config
+    );
+    dispatch({
+      type: SELECT_CHALLENGE_SUCCESS,
+      payload: res.data.challenge,
+    });
+  } catch (error) {
+    dispatch({
+      type: SELECT_CHALLENGE_FAIL,
+    });
+    dispatch(setAlert(`Error ${error}`, "danger"));
+  }
+};
+
+

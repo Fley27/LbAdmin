@@ -29,6 +29,8 @@ class BranchSelector extends React.Component {
     console.log("states changed");
   }
   componentWillReceiveProps(nextProps) {
+   const {user} = this.props.auth;
+  console.log(user);
     if (nextProps.auth.isAuthenticated) {
       console.log(`${this.props.auth.user.userType}`);
       if (nextProps.auth.user.userType == "Admin") {

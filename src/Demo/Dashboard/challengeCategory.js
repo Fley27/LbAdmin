@@ -55,7 +55,7 @@ class ChallengeCategory extends Component {
                   <Col md={12}>
                     <Button
                       onClick={() => {
-                        this.props.history.push("/challenge/addchallengetype");
+                        this.props.history.push("/challenge/addchallengecategoria");
                       }}
                       className='btn-danger text-center'
                     >
@@ -70,7 +70,6 @@ class ChallengeCategory extends Component {
                             <tr>
                               <th>Identificador</th>
                               <th>Título</th>
-                              <th>Tipología</th>
                               <th></th>
                             </tr>
                           </thead>
@@ -80,25 +79,7 @@ class ChallengeCategory extends Component {
                                 <tr key={index}>
                                   <td>{item.identifier}</td>
                                   <td>{item.name}</td>
-                                  <td>{item.type.name}</td>
                                   <td className='td-actions text-right'>
-                                    <Tooltip title='editar'>
-                                      <button
-                                        aria-label='Editar'
-                                        onClick={() => {
-                                          this.props.selectChallengeCategory(
-                                            item
-                                          );
-                                          this.props.history.push(
-                                            "/challenge/editchallengetype"
-                                          );
-                                        }}
-                                      >
-                                        <i className='material-icons warning'>
-                                          edit
-                                        </i>
-                                      </button>
-                                    </Tooltip>
                                     <Tooltip title='Borrar'>
                                       <button
                                         onClick={() => {
@@ -153,12 +134,12 @@ class ChallengeCategory extends Component {
             {this.state.deleted ? (
               <Col md={12} className='text-center'>
                 <h4 className='title'>Borrado</h4>
-                <h5 className='subTile'>Ese tipo de reto ha sido borrado</h5>
+                <h5 className='subTile'>Ha sido borrado</h5>
               </Col>
             ) : (
               <Col md={12} className='text-center'>
                 <h4 className='title'>
-                  ¿Estas seguro de que quieres borrar este tipo de reto?
+                  ¿Estas seguro de que quieres borrar esta categoria?
                 </h4>
                 <h5 className='subTitle'>
                   No podrá recuperar los datos borrados
@@ -190,8 +171,8 @@ class ChallengeCategory extends Component {
                 </Button>
                 <Button
                   onClick={() => {
-                    const { challengeType } = this.props.challengeType;
-                    this.props.deleteChallengeCategory(challengeType);
+                    const { challengeCategory } = this.props.challengeCategory;
+                    this.props.deleteChallengeCategory(challengeCategory);
                   }}
                   className='bottom-danger'
                 >

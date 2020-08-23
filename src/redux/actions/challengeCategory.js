@@ -43,7 +43,6 @@ export const addChallengeCategory = (data) => async (dispatch) => {
     dispatch({
       type: ADD_CHALLENGECATEGORY_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
   }
 };
 

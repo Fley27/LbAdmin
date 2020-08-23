@@ -5,7 +5,7 @@ import "./user.scss";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { loadUsers, selectUser } from "../../redux/actions/user";
+import { loadChallenge, selectChallenge, deleteChallenge } from "../../redux/actions/challenge";
 
 import { Button, Modal, Col } from "react-bootstrap";
 class Challenge extends Component {
@@ -19,13 +19,26 @@ class Challenge extends Component {
     };
   }
   componentDidMount() {
-    this.props.loadUsers();
+    this.props.loadChallenge();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { deleted } = nextProps.challenge;
+    if (deleted) {
+      console.log(`${deleted}`);
+      this.setState({ deleted: deleted });
+      this.props.loadChallenge();
+    }
+  }
+
+  deleteShow() {
+    this.setState({ deleteShow: !this.state.deleteShow });
+  }
+
+
   render() {
-    const users = this.props.user;
-    console.log(users);
-    var dateformat = require("dateformat");
+    const {challenges} = this.props.challenge;
+    console.log(challenges);
     return (
       <div className='main-content'>
         <div className='container-fluid'>
@@ -41,14 +54,18 @@ class Challenge extends Component {
                 <div className='card-body'>
                   <Col md={12}>
                     <Button
-                      onClick={() => this.props.history.push("/dashboard/user")}
-                      style={{ float: "right", height: 40 }}
+                      onClick={() => {
+                        this.props.selectChallenge(null)
+                        this.props.history.push("/dashboard/addchallenge")
+                      }}
                       variant='danger text-center'
                     >
                       Crear
                     </Button>
                   </Col>
-                  <Col>
+                  {
+                    challenges ? (
+                      <Col>
                     <div className='table-responsive'>
                       <table className='table table-hover'>
                         <thead>
@@ -57,57 +74,29 @@ class Challenge extends Component {
                             <th>Categoría</th>
                             <th>Tipología</th>
                             <th>Coste</th>
+                            <th>Temporizador</th>
                             <th></th>
                           </tr>
                         </thead>
                         <tbody>
-                          {users.users.map((item, index) =>
+                          {challenges.map((item, index) =>
                             index < 15 ? (
                               <tr key={index}>
-                                <td>{item.profile.name}</td>
-                                <td>{item.profile.orientation}</td>
+                                <td>{item.title}</td>
+                                <td>{item.category.name}</td>
                                 <td>
-                                  {dateformat(
-                                    item.profile.birthdate,
-                                    "dd/mm/yy"
-                                  )}
+                                  {
+                                    item.type.name
+                                  }
                                 </td>
-                                <td>{item.profile.coins}</td>
+                                <td>{item.cost}</td>
+                                <td>{item.DurationHours}</td>
                                 <td className='td-actions text-right'>
-                                  <Tooltip title='Añadir/Sustraer monedas'>
-                                    <button
-                                      onClick={() => {
-                                        this.props.selectUser(item);
-                                        this.props.history.push(
-                                          "/dashboard/addcoins"
-                                        );
-                                        // onclickhref("/dashboard/addcoins");
-                                      }}
-                                      aria-label='Añadir/Sustraer monedas'
-                                    >
-                                      <i className='material-icons warning'>
-                                        account_balance_wallet
-                                      </i>
-                                    </button>
-                                  </Tooltip>
-                                  <Tooltip title='Bloquear  '>
-                                    <button
-                                      aria-label='Bloquear'
-                                      onClick={() => {
-                                        this.handleshow();
-                                        this.props.selectUser(item);
-                                      }}
-                                    >
-                                      <i className='material-icons danger'>
-                                        block
-                                      </i>
-                                    </button>
-                                  </Tooltip>
-                                  <Tooltip title='Bloquear'>
+                                  <Tooltip title='Borrar'>
                                     <button
                                       onClick={() => {
                                         this.deleteShow();
-                                        this.props.selectUser(item);
+                                        this.props.selectChallenge(item);
                                       }}
                                       aria-label='Borrar'
                                     >
@@ -124,10 +113,83 @@ class Challenge extends Component {
                       </table>
                     </div>
                   </Col>
+                    ):(
+                      <Col className='text-center'>
+                        <p><strong>The challenge's list is empty</strong></p>
+                      </Col>
+                    )
+                  }
                 </div>
               </div>
             </div>
           </div>
+          <Modal
+          show={this.state.deleteShow}
+          onHide={() => {
+            this.deleteShow();
+          }}
+        >
+          <Modal.Header className='border'>
+            <Col md={12} className='text-center'>
+              {this.state.deleted ? (
+                <i className='material-icons error-outline'>check_circle</i>
+              ) : (
+                <i className='material-icons error-outline'>error</i>
+              )}
+            </Col>
+          </Modal.Header>
+          <Modal.Body className='border'>
+            {this.state.deleted ? (
+              <Col md={12} className='text-center'>
+                <h4 className='title'>Borrado</h4>
+                <h5 className='subTile'>El reto ha sido borrado</h5>
+              </Col>
+            ) : (
+              <Col md={12} className='text-center'>
+                <h4 className='title'>
+                  ¿Estas seguro de que quieres borrar este reto?
+                </h4>
+                <h5 className='subTitle'>
+                  No podrá recuperar los datos borrados
+                </h5>
+              </Col>
+            )}
+          </Modal.Body>
+          <Modal.Footer className='border'>
+            {this.state.deleted ? (
+              <div className='container-footer'>
+                <Button
+                  onClick={() => {
+                    this.deleteShow();
+                  }}
+                  className='bottom-danger'
+                >
+                  Ok
+                </Button>
+              </div>
+            ) : (
+              <div className='container-footer'>
+                <Button
+                  className='bottom-primary'
+                  onClick={() => {
+                    this.deleteShow();
+                  }}
+                >
+                  No Borrar
+                </Button>
+                <Button
+                  onClick={() => {
+                    const { challenge } = this.props.challenge;
+                    this.props.deleteChallenge(challenge);
+                  }}
+                  className='bottom-danger'
+                >
+                  Borrar
+                </Button>
+              </div>
+            )}
+          </Modal.Footer>
+        </Modal>
         </div>
       </div>
     );
@@ -135,16 +197,16 @@ class Challenge extends Component {
 }
 
 Challenge.propTypes = {
-  auth: PropTypes.object.isRequired,
-  loadUsers: PropTypes.func.isRequired,
-  selectUser: PropTypes.func.isRequired,
+  challenge: PropTypes.object.isRequired,
+  loadChallenge: PropTypes.func.isRequired,
+  selectChallenge: PropTypes.func.isRequired,
+  deleteChallenge:PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth,
-  user: state.user,
+  challenge: state.challenge,
 });
 export default connect(mapStateToProps, {
-  loadUsers,
-  selectUser,
+  loadChallenge,
+  selectChallenge,deleteChallenge
 })(withRouter(Challenge));

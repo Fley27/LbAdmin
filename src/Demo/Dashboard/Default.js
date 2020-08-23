@@ -33,9 +33,7 @@ class Dashboard extends React.Component {
     if (!this.props.auth.isAuthenticated) {
       this.props.history.push("../auth/signin-1");
     }
-    if (this.props.auth.user.userType == "admin") {
-      // this.props.history.push("/default");
-    }
+    
   }
   render() {
     const tabContent = (

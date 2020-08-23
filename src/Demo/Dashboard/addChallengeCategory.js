@@ -6,7 +6,7 @@ import "./user.scss";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addChallengeCategory } from "../../redux/actions/challengeCategory";
+import { addChallengeCategory,  } from "../../redux/actions/challengeCategory";
 import { loadChallengeType } from "../../redux/actions/challengeType";
 import { uploadImage } from "../../redux/actions/image";
 import "./input.css";
@@ -20,7 +20,8 @@ class AddChallengeCategory extends Component {
       type: "",
       icon: "",
       text: "",
-      file: "",
+      file: null,
+      filename: "",
     };
   }
 
@@ -31,7 +32,7 @@ class AddChallengeCategory extends Component {
   componentWillReceiveProps(nextProps) {
     const { challengeCategory } = nextProps.challengeCategory;
     const { upload } = nextProps.image;
-    if (!challengeCategory) {
+    if (challengeCategory) {
       console.log(`${challengeCategory}`);
       this.setState({
         identifier: "",
@@ -39,11 +40,12 @@ class AddChallengeCategory extends Component {
         type: "",
         icon: "",
         text: "",
-        file: "",
+        file: null,
+        filename: ""
       });
     }
     if (upload) {
-      this.setState({ icon: upload.filepath });
+      this.setState({ icon: upload.filepath, filename: upload.filename  });
     }
   }
 
@@ -51,6 +53,10 @@ class AddChallengeCategory extends Component {
     this.setState({ icon: null });
     console.log("just logging", e.target.files[0]);
     this.setState({ file: e.target.files[0] });
+    console.log(this.state.file);
+    const formData = new FormData();
+    formData.append("file", e.target.files[0] );
+    this.props.uploadImage(formData);
   };
   handleChange = (e) => {
     console.log(
@@ -61,11 +67,19 @@ class AddChallengeCategory extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    //  this.props.addChallengeType(this.state);
-    console.log(this.state.file);
-    const formData = new FormData();
-    formData.append("file", this.state.file);
-    this.props.uploadImage(formData);
+   let  challengeCategoryData = {}, challengeCategoryTypeData = {};
+
+   challengeCategoryData.identifier = this.state.identifier;
+   challengeCategoryData.name = this.state.name;
+
+   challengeCategoryTypeData.icon = this.state.icon;
+   challengeCategoryTypeData.text = this.state.text;
+   challengeCategoryTypeData.type = this.state.type;
+
+   let obj = {};
+   obj.challengeCategoryData = challengeCategoryData;
+   obj.challengeCategoryTypeData = challengeCategoryTypeData ;
+     this.props.addChallengeCategory(obj);
   };
 
   render() {
@@ -129,10 +143,12 @@ class AddChallengeCategory extends Component {
                           </Form.Group>
                         </Col>
                         <Col className='w-40'>
-                          <Form.Group>
+                          <Row>
+                            <Col>
+                            <Form.Group>
                             <Form.Label>
-                              {this.state.icon
-                                ? this.state.icon
+                              {this.state.filename
+                                ? this.state.filename
                                 : "Imagen del reto"}
                             </Form.Label>
                             <label
@@ -146,29 +162,30 @@ class AddChallengeCategory extends Component {
                               id='icon'
                               type='file'
                             />
-                            <div className='col-auto pl-0'>
-                              <div className='question-image-container w-100'>
-                                <img
-                                  src={this.state.icon}
-                                  alt=''
-                                  className='question-image'
-                                />
-                              </div>
-                            </div>
                           </Form.Group>
-                        </Col>
+                            </Col>
+                            <Col>
+                            <div style = {{height : 50, width: 50, borderRadius: 5, marginTop: 0, boxShadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)"}}>
+                                <div style = {{overflow: "hidden" , height : 50, width: 50}} className='image-container w-auto'>
+                                  <img src={this.state.icon} alt='' style = {{height : 50, width: 50}} />
+                                </div>
+                            </div>
+                            </Col>
+                          </Row>
+                          </Col>
                       </Row>
                       <Row className='textarea '>
                         <Col>
                           <Form.Group>
                             <Form.Label>Texto*</Form.Label>
-                            <textarea
+                            <Form.Control
                               id='text'
                               onChange={this.handleChange}
                               value={this.state.text}
+                              as = "textarea"
                               rows='8'
                               cols='50'
-                            ></textarea>
+                           />
                           </Form.Group>
                         </Col>
                       </Row>
