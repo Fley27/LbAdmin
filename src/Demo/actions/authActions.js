@@ -13,7 +13,7 @@ import {
 // Register User
 export const registerUser = (userData, history) => (dispatch) => {
   axios
-    .post("http://localhost:5000/api/users/register", userData)
+    .post("https://libidoonbackend.herokuapp.com/api/users/register", userData)
     .then((res) => history.push("/login"))
     .catch((err) =>
       dispatch({
@@ -28,7 +28,7 @@ export const loginUser = (userData) => (dispatch) => {
   console.log("login fired");
 
   axios
-    .post("http://localhost:5000/api/users/login", userData)
+    .post("https://libidoonbackend.herokuapp.com/api/users/login", userData)
     .then((res) => {
       // Save to localStorage
       console.log(res);
@@ -78,7 +78,7 @@ export const logoutUser = () => (dispatch) => {
 
 export const branchfetcher = (userData) => (dispatch) => {
   axios
-    .post("http://localhost:5000/api/branch/branchfetcher", userData)
+    .post("https://libidoonbackend.herokuapp.com/api/branch/branchfetcher", userData)
     .then((res) =>
       dispatch({
         type: LOAD_ASSOC_BRANCHES,
@@ -89,7 +89,7 @@ export const branchfetcher = (userData) => (dispatch) => {
 
 export const togglebranches = (userData, history) => (dispatch) => {
   axios
-    .post("http://localhost:5000/api/branch/togglebranches", userData)
+    .post("https://libidoonbackend.herokuapp.com/api/branch/togglebranches", userData)
     .then((res) =>
       dispatch({
         type: TOGGLE_BRANCH,
