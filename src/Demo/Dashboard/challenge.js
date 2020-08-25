@@ -12,14 +12,14 @@ class Challenge extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      blockShow: false,
       deleteShow: false,
-      blocked: false,
       deleted: false,
     };
   }
   componentDidMount() {
     this.props.loadChallenge();
+    
+   // this.props.selectChallenge({});
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,8 +37,8 @@ class Challenge extends Component {
 
 
   render() {
-    const {challenges} = this.props.challenge;
-    console.log(challenges);
+    const {challenges, challenge} = this.props.challenge;
+    console.log(challenge);
     return (
       <div className='main-content'>
         <div className='container-fluid'>
@@ -92,6 +92,19 @@ class Challenge extends Component {
                                 <td>{item.cost}</td>
                                 <td>{item.DurationHours}</td>
                                 <td className='td-actions text-right'>
+                                <Tooltip title='Editar'>
+                                    <button
+                                      onClick={() => {
+                                       this.props.selectChallenge(item);
+                                       this.props.history.push("/dashboard/editchallenge");
+                                      }}
+                                      aria-label='Editar'
+                                    >
+                                      <i className='material-icons warning'>
+                                        edit
+                                      </i>
+                                    </button>
+                                  </Tooltip>
                                   <Tooltip title='Borrar'>
                                     <button
                                       onClick={() => {

@@ -1,6 +1,5 @@
 import React from "react";
 import $ from "jquery";
-import Feedback from "./Demo/Dashboard/Feedback";
 
 window.jQuery = $;
 window.$ = $;
@@ -23,6 +22,12 @@ const ChallengeType = React.lazy(() =>
 );
 const User = React.lazy(() => import("./Demo/Dashboard/user"));
 const DashboardDefault = React.lazy(() => import("./Demo/Dashboard/Default"));
+const EditChallenge = React.lazy(() =>
+  import("./Demo/Dashboard/editChallenge")
+);
+const EditChallengeCategory = React.lazy(() =>
+  import("./Demo/Dashboard/editChallengeCategory")
+);
 const EditChallengeType = React.lazy(() =>
   import("./Demo/Dashboard/editChallengeType")
 );
@@ -74,6 +79,18 @@ const routes = [
     exact: true,
     name: "Default",
     component: DashboardDefault,
+  },
+  {
+    path: "/dashboard/editchallenge",
+    exact: true,
+    name: "Default",
+    component: EditChallenge,
+  },
+  {
+    path: "/dashboard/editchallengecategory",
+    exact: true,
+    name: "Default",
+    component: EditChallengeCategory,
   },
   {
     path: "/challenge/editchallengetype",

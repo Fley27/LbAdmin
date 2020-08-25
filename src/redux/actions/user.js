@@ -27,7 +27,7 @@ export const loadUsers = () => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get(`http://localhost:5000/api/user`);
+    const res = await axios.get(`https://libidoonbackend.herokuapp.com/api/user`);
     dispatch({
       type: FETCH_USER_SUCCESS,
       payload: res.data.users,
@@ -56,7 +56,7 @@ export const blockUser = (userData) => async (dispatch) => {
 
   try {
     const res = await axios.put(
-      `http://localhost:5000/api/user/block/${_id}`,
+      `https://libidoonbackend.herokuapp.com/api/user/block/${_id}`,
       body,
       config
     );
@@ -87,7 +87,7 @@ export const deleteUser = (userData) => async (dispatch) => {
 
   try {
     const res = await axios.delete(
-      `http://localhost:5000/api/user/delete/${_id}`,
+      `https://libidoonbackend.herokuapp.com/api/user/delete/${_id}`,
       config
     );
     dispatch({
@@ -117,7 +117,7 @@ export const selectUser = (userData) => async (dispatch) => {
 
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/user/select`,
+      `https://libidoonbackend.herokuapp.com/api/user/select`,
       body,
       config
     );
@@ -149,7 +149,7 @@ export const editCoinsUser = (userData) => async (dispatch) => {
 
   try {
     const res = await axios.put(
-      `http://localhost:5000/api/user/coins/${params}`,
+      `https://libidoonbackend.herokuapp.com/api/user/coins/${params}`,
       body,
       config
     );
@@ -178,7 +178,7 @@ export const addUser = (userData) => async (dispatch) => {
 
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/user`,
+      `https://libidoonbackend.herokuapp.com/api/user`,
       userData,
       config
     );

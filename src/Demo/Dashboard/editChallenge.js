@@ -1,54 +1,23 @@
 import React, { Component } from "react";
 import { Col, Button, Form, Row } from "react-bootstrap";
-import AddChallengeAnswer from "./addChallengeAnswer";
-import "./user.scss";
-
-
-
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addChallenge } from "../../redux/actions/challenge";
+import { editChallenge } from "../../redux/actions/challenge";
 import { loadChallengeCategory } from "../../redux/actions/challengeCategory";
 import { loadChallengeType } from "../../redux/actions/challengeType";
 import { uploadImage } from "../../redux/actions/image";
 import Multi from "../Forms/multiSelect";
 import { Orientation, Pair } from "../data/data";
+import AddChallengeAnswer from "./addChallengeAnswer";
+import "./user.scss";
 
-class AddChallenge extends Component {
+
+class EditChallenge extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
-      description: "",
-      cost: "",
-      category: "",
-      type: "",
-      appUsage: "Citas Reales",
-      profileType: "",
-      senderSex: "",
-      receiverSex: "",
-      answers: [{ index: Math.random(), image: "", description: "" , placeholder : ""}],
-      senderOrientation: [],
-      receiverOrientation: [],
-      senderPair: [],
-      receiverPair: [],
-      answerType: "Texto",
-      filename: "",
-      DurationHours: "",
-    };
-  }
-
-  componentDidMount(){
-    this.props.loadChallengeType();
-    this.props.loadChallengeCategory();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { challenge } = nextProps.challenge;
-    if (challenge) {
-      console.log(`${challenge}`);
-      this.setState({
+        title: "",
         description: "",
         cost: "",
         category: "",
@@ -57,7 +26,7 @@ class AddChallenge extends Component {
         profileType: "",
         senderSex: "",
         receiverSex: "",
-        answers: [{ index: Math.random(), image: "", description: "" }],
+        answers: [{ index: Math.random(), image: "", description: "", placeholder : "" }],
         senderOrientation: [],
         receiverOrientation: [],
         senderPair: [],
@@ -65,8 +34,70 @@ class AddChallenge extends Component {
         answerType: "Texto",
         filename: "",
         DurationHours: "",
-      });
-      this.props.history.push("/dashboard/challenge")
+    };
+  }
+
+  componentDidMount() {
+    this.props.loadChallengeType();
+    this.props.loadChallengeCategory();
+    const { challenge} = this.props.challenge;
+
+    if (!challenge) return this.props.history.push("/dashboard/default");
+    else {
+      let { title,description, cost , category, type ,appUsage,answers
+        ,DurationHours, profileType, answerType } = challenge;
+
+    
+        if(profileType === "Soltero"){
+            const {challengeIndividual} = challenge;
+            let {senderSex,receiverSex} = challengeIndividual;
+            this.setState({senderSex,receiverSex});
+        }
+
+        this.setState({category: category._id, type: type._id});
+
+        this.setState({ title,description, cost ,profileType,appUsage,DurationHours, answerType});
+        let tempAnswer = [];
+
+        answers.map((answer, index) =>{
+            let obj = {};
+            obj.index = index;
+            obj.image = answer.image;
+            obj.description = "";
+            obj.placeholder = answer.description;
+            tempAnswer.push(obj);
+        })
+
+        this.setState({answers: tempAnswer});
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { challenge } = nextProps.challenge;
+    if (challenge.success) {
+      console.log(`${challenge}`);
+      if(challenge){
+        this.setState({
+            description: "",
+            cost: "",
+            category: "",
+            type: "",
+            appUsage: "Citas Reales",
+            profileType: "",
+            senderSex: "",
+            receiverSex: "",
+            answers: [{ index: Math.random(), id: "", image: "", description: "" }],
+            senderOrientation: [],
+            receiverOrientation: [],
+            senderPair: [],
+            receiverPair: [],
+            answerType: "Texto",
+            filename: "",
+            DurationHours: "",
+          });
+
+          this.props.history.push("/dashboard/challenge")
+      }
     }
     const { upload } = nextProps.image;
     if (upload) {
@@ -89,11 +120,10 @@ class AddChallenge extends Component {
     console.groupEnd();
   };
 
-
-
   onSubmit = (e) => {
     e.preventDefault();
 
+    const {challenge} = this.props.challenge;
     var RO = [], SO = [], SP = [], RP = [];
 
     let challengeAnswerData = this.state.answers;
@@ -106,9 +136,7 @@ class AddChallenge extends Component {
     obj.answerType = this.state.answerType;
     obj.DurationHours = this.state.DurationHours;
     obj.category = this.state.category;
-    const { challengeTypes } = this.props.challengeType;
-
-    obj.type = challengeTypes[this.state.type]._id ;
+    obj.type = this.state.type;
 
     let challengeData = obj;
 
@@ -146,14 +174,13 @@ class AddChallenge extends Component {
     let challengePairData = obj;
 
     obj = {};
-
+    obj.id = challenge._id;
     obj.challengeData = challengeData;
     obj.challengeAnswerData = challengeAnswerData;
     obj.challengeIndividualData = challengeIndividualData;
     obj.challengePairData = challengePairData;
 
-    this.props.addChallenge(obj);
-
+    this.props.editChallenge(obj);
   };
 
 
@@ -204,9 +231,10 @@ class AddChallenge extends Component {
   render() {
     const { challengeTypes } = this.props.challengeType;
     const { challengeCategories } = this.props.challengeCategory;
-    console.log(challengeTypes);
+    const {challenge} = this.props.challenge;
+    console.log(challenge);
     console.log(challengeCategories)
-    console.log(this.state.answers.map(item=>item.image));
+    console.log(this.state.answers.map(item=>item.description));
     return (
       <div className='main-content'>
         <div className='container-fluid'>
@@ -284,7 +312,7 @@ class AddChallenge extends Component {
                               </option>
                               {challengeTypes ? (
                                 challengeTypes.map((item , index) => (
-                                  <option value={index}>{item.name}</option>
+                                  <option value={item._id}>{item.name}</option>
                                 ))
                               ): null}
                             </Form.Control>
@@ -455,7 +483,7 @@ class AddChallenge extends Component {
                       <Row className='textarea '>
                         <Col>
                           <Form.Group>
-                            <Form.Label>Descripcion del reto*</Form.Label>
+                            <Form.Label>Descripcion  del reto*</Form.Label>
                             <Form.Control
                               id='description'
                               onChange={this.handleChange}
@@ -469,26 +497,32 @@ class AddChallenge extends Component {
                       </Row>
                     </Col>
                     {
-                      this.state.type === "0" ? (
-                        <Col>
-                          <Col>
-                            <h4><strong>Agrega las respuestas del reto</strong></h4>
-                          </Col>
-                        <Col>
-                            <AddChallengeAnswer
-                               add={this.addNewRow.bind(this)}
-                               delete={this.clickOnDelete.bind(this)}
-                               HandleChange={this.Change}
-                               type = {this.state.answers}
-                               answers={this.state.answers}
-                            />
-                        </Col>
-                        </Col>
-                      ): null
+                     challengeTypes.map(item=> {
+                         if(this.state.type === item._id){
+                             if(item.name === "Tipo Pregunta"){
+                                return(
+                              <Col>
+                                <Col>
+                                  <h4><strong>Agrega las respuestas del reto</strong></h4>
+                                </Col>
+                              <Col>
+                                  <AddChallengeAnswer
+                                     add={this.addNewRow.bind(this)}
+                                     delete={this.clickOnDelete.bind(this)}
+                                     HandleChange={this.Change}
+                                     type = {this.state.answers}
+                                     answers={this.state.answers}
+                                  />
+                              </Col>
+                              </Col>
+                                )
+                             }
+                         }
+                     })
                     }
                     <Col md={8}>
                       <Button variant='danger' type='submit'>
-                        GUARDAR
+                        ACTUALIZAR
                       </Button>
                     </Col>
                   </Form>
@@ -502,13 +536,13 @@ class AddChallenge extends Component {
   }
 }
 
-AddChallenge.propTypes = {
+EditChallenge.propTypes = {
   challengeType: PropTypes.object.isRequired,
   challengeCategory: PropTypes.object.isRequired,
   challenge: PropTypes.object.isRequired,
   image: PropTypes.object.isRequired,
   uploadImage: PropTypes.func.isRequired,
-  addChallenge: PropTypes.func.isRequired,
+  editChallenge: PropTypes.func.isRequired,
   loadChallengeCategory: PropTypes.func.isRequired,
   loadChallengeType: PropTypes.func.isRequired,
 };
@@ -519,6 +553,6 @@ const mapStateToProps = (state) => ({
   image: state.image,
   challenge: state.challenge
 });
-export default connect(mapStateToProps, { addChallenge, loadChallengeCategory, loadChallengeType, uploadImage, })(
-  withRouter(AddChallenge)
+export default connect(mapStateToProps, { editChallenge, loadChallengeCategory, loadChallengeType, uploadImage, })(
+  withRouter(EditChallenge)
 );

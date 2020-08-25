@@ -6,7 +6,7 @@ import "./multi-select.scss";
 
 const Multi = ({ HandleChange, items, label, ...otherProps }) => {
   const selectStyles = {
-    control: (styles) => ({ ...styles, backgroundColor: "white", height: 50 }),
+    control: (styles) => ({ ...styles, background: "#f4f7fa", minHeight: 50 }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
       const color = chroma(data.color);
       return {

@@ -80,6 +80,21 @@ class ChallengeCategory extends Component {
                                   <td>{item.identifier}</td>
                                   <td>{item.name}</td>
                                   <td className='td-actions text-right'>
+                                  <Tooltip title='Edit'>
+                                      <button
+                                        onClick={() => {
+                                          this.props.selectChallengeCategory(
+                                            item
+                                          );
+                                          this.props.history.push("/dashboard/editchallengecategory")
+                                        }}
+                                        aria-label='Edit'
+                                      >
+                                        <i className='material-icons warning'>
+                                          edit
+                                        </i>
+                                      </button>
+                                    </Tooltip>
                                     <Tooltip title='Borrar'>
                                       <button
                                         onClick={() => {

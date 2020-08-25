@@ -60,16 +60,14 @@ export const editChallengeCategory = (challengeCategoryData) => async (
   });
 
   try {
-    const { id } = challengeCategoryData;
-    const params = id;
     const res = await axios.put(
-      `http://localhost:5000/api/challengeCategory/${params}`,
+      `http://localhost:5000/api/challengeCategory`,
       body,
       config
     );
     dispatch({
       type: EDIT_CHALLENGECATEGORY_SUCCESS,
-      payload: res.data.challengeCategory,
+      payload: res.data,
     });
   } catch (error) {
     dispatch({

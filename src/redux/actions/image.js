@@ -18,7 +18,7 @@ export const uploadImage = (formData) => async (dispatch) => {
 
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/image/upload`,
+      `https://libidoonbackend.herokuapp.com/api/image/upload`,
       formData,
       config
     );
