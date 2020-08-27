@@ -31,7 +31,7 @@ export const addStore = (data) => async (dispatch) => {
 
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/store`,
+      `https://libidoonbackend.herokuapp.com/api/store`,
       body,
       config
     );
@@ -61,7 +61,7 @@ export const editStore = (data) => async (
 
   try {
     const res = await axios.put(
-      `http://localhost:5000/api/store/`,
+      `https://libidoonbackend.herokuapp.com/api/store/`,
       body,
       config
     );
@@ -91,7 +91,7 @@ export const deleteStore = (data) => async (
   try {
     const { _id } = data;
     const res = await axios.put(
-      `http://localhost:5000/api/store/delete/${_id}`,
+      `https://libidoonbackend.herokuapp.com/api/store/delete/${_id}`,
       config
     );
     dispatch({
@@ -112,7 +112,7 @@ export const loadStore = () => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get(`http://localhost:5000/api/store`);
+    const res = await axios.get(`https://libidoonbackend.herokuapp.com/api/store`);
     dispatch({
       type: FETCH_STORE_SUCCESS,
       payload: res.data.cards,
@@ -142,7 +142,7 @@ export const selectStore = (data) => async (
 
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/store/select`,
+      `https://libidoonbackend.herokuapp.com/api/store/select`,
       body,
       config
     );

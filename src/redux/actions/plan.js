@@ -31,7 +31,7 @@ export const addPlan = (data) => async (dispatch) => {
 
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/plan`,
+      `https://libidoonbackend.herokuapp.com/plan`,
       body,
       config
     );
@@ -61,7 +61,7 @@ export const editPlan = (data) => async (
 
   try {
     const res = await axios.put(
-      `http://localhost:5000/api/plan/`,
+      `https://libidoonbackend.herokuapp.com/plan/`,
       body,
       config
     );
@@ -91,7 +91,7 @@ export const deletePlan = (data) => async (
   try {
     const { _id } = data;
     const res = await axios.put(
-      `http://localhost:5000/api/plan/delete/${_id}`,
+      `https://libidoonbackend.herokuapp.com/plan/delete/${_id}`,
       config
     );
     dispatch({
@@ -112,7 +112,7 @@ export const loadPlan = () => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get(`http://localhost:5000/api/plan`);
+    const res = await axios.get(`https://libidoonbackend.herokuapp.com/plan`);
     dispatch({
       type: FETCH_PLAN_SUCCESS,
       payload: res.data.plans,
@@ -142,7 +142,7 @@ export const selectPlan = (data) => async (
 
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/plan/select`,
+      `https://libidoonbackend.herokuapp.com/plan/select`,
       body,
       config
     );
