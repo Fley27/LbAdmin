@@ -20,7 +20,7 @@ const ChallengeCategory = React.lazy(() =>
 const ChallengeType = React.lazy(() =>
   import("./Demo/Dashboard/challengeType")
 );
-const User = React.lazy(() => import("./Demo/Dashboard/user"));
+
 const DashboardDefault = React.lazy(() => import("./Demo/Dashboard/Default"));
 const EditChallenge = React.lazy(() =>
   import("./Demo/Dashboard/editChallenge")
@@ -31,6 +31,9 @@ const EditChallengeCategory = React.lazy(() =>
 const EditChallengeType = React.lazy(() =>
   import("./Demo/Dashboard/editChallengeType")
 );
+const Plan = React.lazy(() => import("./Demo/Dashboard/plan"));
+const Store = React.lazy(() => import("./Demo/Dashboard/store"));
+const User = React.lazy(() => import("./Demo/Dashboard/user"));
 const routes = [
   {
     path: "/dashboard/addchallenge",
@@ -97,6 +100,18 @@ const routes = [
     exact: true,
     name: "Default",
     component: EditChallengeType,
+  },
+  {
+    path: "/dashboard/plan",
+    exact: true,
+    name: "Default",
+    component: Plan,
+  },
+  {
+    path: "/dashboard/store",
+    exact: true,
+    name: "Default",
+    component: Store,
   },
   {
     path: "/dashboard/user",

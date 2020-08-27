@@ -1,0 +1,19 @@
+.button-add{
+    display: flex;
+    flex-direction: row;
+    i{
+        margin-right: 10px;
+    }
+    .text{
+        text-decoration: none;
+        font-size: 1.2em;
+        font-weight: 700;
+        color: #0e0b99;
+        cursor: pointer;
+        &:hover{
+            color: #790024;
+        }
+    }
+    
+    
+}

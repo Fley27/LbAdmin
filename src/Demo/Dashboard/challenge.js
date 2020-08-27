@@ -18,8 +18,6 @@ class Challenge extends Component {
   }
   componentDidMount() {
     this.props.loadChallenge();
-    
-   // this.props.selectChallenge({});
   }
 
   componentWillReceiveProps(nextProps) {
