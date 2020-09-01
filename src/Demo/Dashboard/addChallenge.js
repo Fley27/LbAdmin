@@ -13,7 +13,7 @@ import { loadChallengeCategory } from "../../redux/actions/challengeCategory";
 import { loadChallengeType } from "../../redux/actions/challengeType";
 import { uploadImage } from "../../redux/actions/image";
 import Multi from "../Forms/multiSelect";
-import { Orientation, Pair } from "../data/data";
+import { Orientation, Pair, Ussage } from "../data/data";
 
 class AddChallenge extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class AddChallenge extends Component {
       cost: "",
       category: "",
       type: "",
-      appUsage: "Citas Reales",
+      appUsage: [],
       profileType: "",
       senderSex: "",
       receiverSex: "",
@@ -94,14 +94,18 @@ class AddChallenge extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    var RO = [], SO = [], SP = [], RP = [];
+    var RO = [], SO = [], SP = [], RP = [], UA = [];
+
+    this.state.senderPair.map(item=>{
+      UA.push(item.value);
+    })
 
     let challengeAnswerData = this.state.answers;
     let obj   = {};
     obj.title = this.state.title;
     obj.cost = this.state.cost;
     obj.description = this.state.description;
-    obj.appUsage = this.state.appUsage;
+    obj.appUsage = UA;
     obj.profileType = this.state.profileType;
     obj.answerType = this.state.answerType;
     obj.DurationHours = this.state.DurationHours;
@@ -295,20 +299,13 @@ class AddChallenge extends Component {
                     <Col className='w-80'>
                       <Row>
                         <Col className='w-40'>
-                          <Form.Group>
-                            <Form.Label>Uso de la App*</Form.Label>
-                            <Form.Control
-                              onChange={this.handleChange}
-                              value={this.state.appUsage}
-                              id='appUsage'
-                              as='select'
-                              className='mb-3'
-                            >
-                              <option value='Citas Reales'>Citas Reales</option>
-                              <option value='Ciber Sexo'>Ciber Sexo</option>
-                            </Form.Control>
-                          </Form.Group>
-                        </Col>
+                            <Multi
+                              name='appUsage'
+                              label='Uso de la App'
+                              items={Ussage}
+                              HandleChange={this.HandleChange}
+                            />
+                          </Col>
                         <Col className='w-40'>
                           <Form.Group>
                             <Form.Label>Tipo de Perfil*</Form.Label>

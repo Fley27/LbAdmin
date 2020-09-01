@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import "./../../../assets/scss/style.scss";
 import Aux from "../../../hoc/_Aux";
-import Breadcrumb from "../../../App/layout/AdminLayout/Breadcrumb";
+import Breadcrumb from "../../../App/layout/AdminLayout/Breadcrumb/index";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { login } from "../../../redux/actions/auth";
@@ -22,25 +22,26 @@ class BranchSelector extends React.Component {
 
   componentDidMount() {
     if (this.props.auth.isAuthenticated) {
-      if (this.props.auth.user.userType == "admin") {
-        this.props.history.push("/dashboard");
+      if (this.props.auth.user) {
+        if (this.props.auth.user.userType.toLowerCase() === "admin") {
+          this.props.history.push("/dashboard");
+        }
       }
     }
     console.log("states changed");
   }
   componentWillReceiveProps(nextProps) {
-   const {user} = this.props.auth;
-  console.log(user);
+    console.log( nextProps.auth);
     if (nextProps.auth.isAuthenticated) {
-      console.log(`${this.props.auth.user.userType}`);
-      if (nextProps.auth.user.userType == "Admin") {
-        this.props.history.push("/dashboard/default");
-      }
-    }
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors,
-      });
+      const {user} = nextProps.auth;
+       if(user){
+        const {userType} = user;
+        console.log(user);
+        console.log(`${userType}`);
+        if (userType.toLowerCase() === "admin") {
+          this.props.history.push("/dashboard/");
+        }
+       }
     }
     console.log("THis is after login response gets in nextprop and state is");
   }
@@ -50,10 +51,7 @@ class BranchSelector extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const userData = {
-      email: this.state.email,
-      password: this.state.password,
-    };
+    
 
     const { email, password } = this.state;
     console.log("inptus to be sent are" + this.state.email);

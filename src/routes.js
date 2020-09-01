@@ -17,6 +17,9 @@ const Challenge = React.lazy(() => import("./Demo/Dashboard/challenge"));
 const ChallengeCategory = React.lazy(() =>
   import("./Demo/Dashboard/challengeCategory")
 );
+const ChallengeSettings = React.lazy(() =>
+  import("./Demo/Dashboard/challengeSettings")
+);
 const ChallengeType = React.lazy(() =>
   import("./Demo/Dashboard/challengeType")
 );
@@ -70,6 +73,12 @@ const routes = [
     exact: true,
     name: "Default",
     component: ChallengeCategory,
+  },
+  {
+    path: "/dashboard/settings",
+    exact: true,
+    name: "Default",
+    component: ChallengeSettings,
   },
   {
     path: "/challenge/challengeType",

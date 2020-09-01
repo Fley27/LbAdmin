@@ -7,6 +7,8 @@ import {
   LOG_IN_SUCCESS,
   LOG_IN_FAIL,
 } from "../const";
+import jwt_decode from "jwt-decode";
+
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
@@ -20,18 +22,20 @@ export default function (state = initialState, action) {
     case USER_LOADED:
       return {
         ...state,
-        isAuthenticated: true,
+        isAuthenticated: false,
         loading: false,
         user: payload,
       };
     case REGISTER_SUCCESS:
     case LOG_IN_SUCCESS:
       localStorage.setItem("token", payload.token);
+      const decoded = jwt_decode(payload.token);
       return {
         ...state,
         ...payload,
         isAuthenticated: true,
-        loading: false,
+        user: decoded,
+        loading: true,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:

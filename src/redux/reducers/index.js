@@ -8,7 +8,8 @@ import challengeType from "./challengeType";
 import image from "./image";
 import challengeCategory from "./challengeCategory";
 import store from "./store";
-import plan from "./plan"
+import plan from "./plan";
+import challengeSettings from './challlengeSettings';
 
 export default combineReducers({
   alert,
@@ -20,5 +21,6 @@ export default combineReducers({
   image,
   challenge,
   store,
-  plan
+  plan,
+  challengeSettings,
 });

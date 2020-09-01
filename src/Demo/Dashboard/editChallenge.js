@@ -8,7 +8,7 @@ import { loadChallengeCategory } from "../../redux/actions/challengeCategory";
 import { loadChallengeType } from "../../redux/actions/challengeType";
 import { uploadImage } from "../../redux/actions/image";
 import Multi from "../Forms/multiSelect";
-import { Orientation, Pair } from "../data/data";
+import { Orientation, Pair, Ussage } from "../data/data";
 import AddChallengeAnswer from "./addChallengeAnswer";
 import "./user.scss";
 
@@ -44,7 +44,7 @@ class EditChallenge extends Component {
 
     if (!challenge) return this.props.history.push("/dashboard/default");
     else {
-      let { title,description, cost , category, type ,appUsage,answers
+      let { title,description, cost , category, type ,answers
         ,DurationHours, profileType, answerType } = challenge;
 
     
@@ -56,7 +56,7 @@ class EditChallenge extends Component {
 
         this.setState({category: category._id, type: type._id});
 
-        this.setState({ title,description, cost ,profileType,appUsage,DurationHours, answerType});
+        this.setState({ title,description, cost ,profileType,DurationHours, answerType});
         let tempAnswer = [];
 
         answers.map((answer, index) =>{
@@ -82,7 +82,7 @@ class EditChallenge extends Component {
             cost: "",
             category: "",
             type: "",
-            appUsage: "Citas Reales",
+            appUsage: [],
             profileType: "",
             senderSex: "",
             receiverSex: "",
@@ -124,14 +124,18 @@ class EditChallenge extends Component {
     e.preventDefault();
 
     const {challenge} = this.props.challenge;
-    var RO = [], SO = [], SP = [], RP = [];
+    var RO = [], SO = [], SP = [], RP = [], UA = [];
+
+    this.state.senderPair.map(item=>{
+      UA.push(item.value);
+    })
 
     let challengeAnswerData = this.state.answers;
     let obj   = {};
     obj.title = this.state.title;
     obj.cost = this.state.cost;
     obj.description = this.state.description;
-    obj.appUsage = this.state.appUsage;
+    obj.appUsage = UA;
     obj.profileType = this.state.profileType;
     obj.answerType = this.state.answerType;
     obj.DurationHours = this.state.DurationHours;
@@ -322,21 +326,14 @@ class EditChallenge extends Component {
                     </Col>
                     <Col className='w-80'>
                       <Row>
-                        <Col className='w-40'>
-                          <Form.Group>
-                            <Form.Label>Uso de la App*</Form.Label>
-                            <Form.Control
-                              onChange={this.handleChange}
-                              value={this.state.appUsage}
-                              id='appUsage'
-                              as='select'
-                              className='mb-3'
-                            >
-                              <option value='Citas Reales'>Citas Reales</option>
-                              <option value='Ciber Sexo'>Ciber Sexo</option>
-                            </Form.Control>
-                          </Form.Group>
-                        </Col>
+                      <Col className='w-40'>
+                            <Multi
+                              name='appUsage'
+                              label='Uso de la App'
+                              items={Ussage}
+                              HandleChange={this.HandleChange}
+                            />
+                          </Col>
                         <Col className='w-40'>
                           <Form.Group>
                             <Form.Label>Tipo de Perfil*</Form.Label>

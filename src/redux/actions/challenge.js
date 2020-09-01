@@ -31,7 +31,7 @@ export const addChallenge = (data) => async (dispatch) => {
 
   try {
     const res = await axios.post(
-      `https://libidoonbackend.herokuapp.com/api/challenge`,
+      `http://localhost:5000/api/challenge`,
       body,
       config
     );
@@ -61,7 +61,7 @@ export const editChallenge = (challengeData) => async (
 
   try {
     const res = await axios.put(
-      `https://libidoonbackend.herokuapp.com/api/challenge/`,
+      `http://localhost:5000/api/challenge/`,
       body,
       config
     );
@@ -91,7 +91,7 @@ export const deleteChallenge = (challengeData) => async (
   try {
     const { _id } = challengeData;
     const res = await axios.delete(
-      `https://libidoonbackend.herokuapp.com/api/challenge/${_id}`,
+      `http://localhost:5000/api/challenge/${_id}`,
       config
     );
     dispatch({
@@ -112,7 +112,7 @@ export const loadChallenge = () => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get(`https://libidoonbackend.herokuapp.com/api/challenge`);
+    const res = await axios.get(`http://localhost:5000/api/challenge`);
     dispatch({
       type: FETCH_CHALLENGE_SUCCESS,
       payload: res.data.challenges,
@@ -142,7 +142,7 @@ export const selectChallenge = (challengeData) => async (
 
   try {
     const res = await axios.post(
-      `https://libidoonbackend.herokuapp.com/api/challenge/select`,
+      `http://localhost:5000/api/challenge/select`,
       body,
       config
     );
