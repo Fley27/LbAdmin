@@ -17,14 +17,14 @@ import setAuthToken from "./utils/setAuthToken";
 import { loadUser, logout } from "./redux/actions/auth";
 
 // Check for token to keep user logged in
-if (localStorage.token) {
+if (localStorage.getItem("token") !== "undefined") {
   // Set auth token header auth
-  const token = localStorage.token;
+  const token = localStorage.getItem("token");
   setAuthToken(token);
   // Decode token and get user info and exp
   const decoded = jwt_decode(token);
   // Set user and isAuthenticated
-  store.dispatch(loadUser(decoded));
+  store.dispatch(loadUser());
   // Check for expired token
   const currentTime = Date.now() / 1000; // to get in milliseconds
   if (decoded.exp < currentTime) {

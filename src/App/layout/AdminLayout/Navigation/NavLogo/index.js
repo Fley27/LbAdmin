@@ -7,7 +7,7 @@ const navLogo = (props) => {
     if (props.collapseMenu) {
         toggleClass = [...toggleClass, 'on'];
     }
-
+    
     return (
         <Aux>
             <div className="navbar-brand header-logo">
@@ -15,7 +15,7 @@ const navLogo = (props) => {
                     <div className="b-bg">
                         <i className="feather icon-trending-up" />
                     </div>
-                    <span className="b-title">Datta Able</span>
+                    <span className="b-title">Libidoon</span>
                  </a>
                 <a href={DEMO.BLANK_LINK} className={toggleClass.join(' ')} id="mobile-collapse" onClick={props.onToggleNavigation}><span /></a>
             </div>

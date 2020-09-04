@@ -53,7 +53,7 @@ class AddChallenge extends Component {
         cost: "",
         category: "",
         type: "",
-        appUsage: "Citas Reales",
+        appUsage: [],
         profileType: "",
         senderSex: "",
         receiverSex: "",
@@ -96,7 +96,7 @@ class AddChallenge extends Component {
 
     var RO = [], SO = [], SP = [], RP = [], UA = [];
 
-    this.state.senderPair.map(item=>{
+    this.state.appUsage.map(item=>{
       UA.push(item.value);
     })
 
@@ -141,7 +141,7 @@ class AddChallenge extends Component {
       console.log(item);
     })
     this.state.receiverPair.map(item=>{
-      SP.push(item.value);
+      RP.push(item.value);
       console.log(item);
     })
     obj.senderPair = SP;

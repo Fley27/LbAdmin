@@ -1,11 +1,7 @@
 import axios from "axios";
-import setAuthToken from "../../utils/setAuthToken";
-import jwt_decode from "jwt-decode";
 import {
   REGISTER_SUCCESS,
-  REGISTER_FAIL,
   USER_LOADED,
-  AUTH_ERROR,
   LOG_OUT,
   LOG_IN_FAIL,
   LOG_IN_SUCCESS,
@@ -23,10 +19,13 @@ export const login = ({ email, password }) => async (dispatch) => {
       "Content-Type": "application/json",
     },
   };
+  dispatch({
+    type:  USER_LOADED,
+  });
   const body = JSON.stringify({ email, password });
   try {
     const res = await axios.post(
-      "http://localhost:5000/api/auth",
+      "https://libidoonbackend.herokuapp.com/api/auth",
       body,
       config
     );
@@ -49,7 +48,7 @@ export const login = ({ email, password }) => async (dispatch) => {
 //register user
 export const loadUser = (decoded) => {
   return {
-    type: USER_LOADED,
+    type: REGISTER_SUCCESS,
     payload: decoded,
   };
 };

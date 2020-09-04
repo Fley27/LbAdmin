@@ -44,7 +44,7 @@ exports.Pair = [
   { value: "Chico Hetero + Chica Bisexual", label: "Chico Hetero + Chica Bisexual", color: "black" },
   { value: "Chico Bisexual + Chica Pansexual", label: "Chico Bisexual + Chica Pansexual", color: "black" },
   { value: "Chico Bisexual + Chica Heteroflexible", label: "Chico Bisexual + Chica Heteroflexible", color: "black" },
-  { value: "Chico Bisexual+ Chica Hetero", label: "Chico Bisexual+ Chica Hetero", color: "black" },
+  { value: "Chico Bisexual + Chica Hetero", label: "Chico Bisexual+ Chica Hetero", color: "black" },
   { value: "Chico Bisexual + Chica Bisexual", label: "Chico Bisexual + Chica Bisexual", color: "black" },
 
 ];

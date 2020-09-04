@@ -5,6 +5,7 @@ import NavLeft from "./NavLeft";
 import NavRight from "./NavRight";
 import Aux from "../../../../hoc/_Aux";
 import DEMO from "../../../../store/constant";
+import logo from '../../../../assets/images/logo/libidoon.png';
 import * as actionTypes from "../../../../store/actions";
 
 class NavBar extends Component {
@@ -22,11 +23,11 @@ class NavBar extends Component {
         return (
             <Aux>
                 <header className={headerClass.join(' ')}>
-                    <div className="m-header" style={{backgroundColor : "#01a9d6"}}>
+                    <div className="m-header" style={{backgroundColor : "#323641"}}>
                         <a className={toggleClass.join(' ')} id="mobile-collapse1" href={DEMO.BLANK_LINK} onClick={this.props.onToggleNavigation}><span/></a>
                         <a href={DEMO.BLANK_LINK} className="b-brand">
-                        <img src="https://mighty-ridge-28744.herokuapp.com/1505ic_launcher2.png" ></img>
-                            <span className="b-title">Sports </span>
+                        <img style = {{width: 70, height: 70, margin: "auto 0"}} src= {logo} alt = "logo"></img>
+                            <span className="b-title">Libidioon</span>
                         </a>
                     </div>
                     <a className="mobile-menu" id="mobile-header" href={DEMO.BLANK_LINK}><i className="feather icon-more-horizontal"/></a>

@@ -22,15 +22,20 @@ class EditChallenge extends Component {
         cost: "",
         category: "",
         type: "",
-        appUsage: "Citas Reales",
+        appUsage: [],
+        defaultAppUsage: [],
         profileType: "",
         senderSex: "",
         receiverSex: "",
         answers: [{ index: Math.random(), image: "", description: "", placeholder : "" }],
         senderOrientation: [],
+        defaultSenderOrientation: [],
         receiverOrientation: [],
+        defaultReceiverOrientation: [],
         senderPair: [],
+        defaultSenderPair: [],
         receiverPair: [],
+        defaultReceiverPair: [],
         answerType: "Texto",
         filename: "",
         DurationHours: "",
@@ -45,13 +50,77 @@ class EditChallenge extends Component {
     if (!challenge) return this.props.history.push("/dashboard/default");
     else {
       let { title,description, cost , category, type ,answers
-        ,DurationHours, profileType, answerType } = challenge;
+        ,DurationHours, profileType, answerType, appUsage } = challenge;
 
+        if(appUsage){
+          let AU = [];
+          appUsage.map(item=>{
+            let obj = {
+              value: item,
+              label: item,
+              color: "black"
+            };
+            AU.push(obj);
+          })
+          appUsage = AU;
+          this.setState({appUsage, defaultAppUsage: AU})
+        }
     
         if(profileType === "Soltero"){
             const {challengeIndividual} = challenge;
-            let {senderSex,receiverSex} = challengeIndividual;
-            this.setState({senderSex,receiverSex});
+            const SO = [], RO = [];
+            let {senderSex,receiverSex,senderOrientation, receiverOrientation} = challengeIndividual;
+            if(senderOrientation) {
+              senderOrientation.map(item=>{
+                let obj = {
+                  value: item,
+                  label: item,
+                  color: "black"
+                };
+                SO.push(obj);
+              })
+              senderOrientation = SO;
+            }
+            if(receiverOrientation) {
+              receiverOrientation.map(item=>{
+                let obj = {
+                  value: item,
+                  label: item,
+                  color: "black"
+                };
+                RO.push(obj);
+              })
+              receiverOrientation = RO;
+            }
+            this.setState({senderSex,receiverSex, senderOrientation, defaultSenderOrientation: senderOrientation,
+               receiverOrientation, defaultReceiverOrientation: receiverOrientation });
+        }else{
+          const {challengePair} = challenge;
+          const SO = [], RO = [];
+          let {senderPair, receiverPair} = challengePair;
+          if(senderPair.length > 0) {
+            senderPair.map(item=>{
+              let obj = {
+                value: item,
+                label: item,
+                color: "black"
+              };
+              SO.push(obj);
+            })
+            senderPair = SO;
+          }
+          if(receiverPair.length > 0) {
+            receiverPair.map(item=>{
+              let obj = {
+                value: item,
+                label: item,
+                color: "black"
+              };
+              RO.push(obj);
+            })
+            receiverPair = RO;
+          }
+          this.setState({senderPair, receiverPair, defaultSenderPair: senderPair, defaultReceiverPair: receiverPair });
         }
 
         this.setState({category: category._id, type: type._id});
@@ -78,25 +147,31 @@ class EditChallenge extends Component {
       console.log(`${challenge}`);
       if(challenge){
         this.setState({
-            description: "",
-            cost: "",
-            category: "",
-            type: "",
-            appUsage: [],
-            profileType: "",
-            senderSex: "",
-            receiverSex: "",
-            answers: [{ index: Math.random(), id: "", image: "", description: "" }],
-            senderOrientation: [],
-            receiverOrientation: [],
-            senderPair: [],
-            receiverPair: [],
-            answerType: "Texto",
-            filename: "",
-            DurationHours: "",
+          title: "",
+          description: "",
+          cost: "",
+          category: "",
+          type: "",
+          appUsage: [],
+          defaultAppUsage: [],
+          profileType: "",
+          senderSex: "",
+          receiverSex: "",
+          answers: [{ index: Math.random(), image: "", description: "", placeholder : "" }],
+          senderOrientation: [],
+          defaultSenderOrientation: [],
+          receiverOrientation: [],
+          defaultReceiverOrientation: [],
+          senderPair: [],
+          defaultSenderPair: [],
+          receiverPair: [],
+          defaultReceiverPair: [],
+          answerType: "Texto",
+          filename: "",
+          DurationHours: "",
           });
 
-          this.props.history.push("/dashboard/challenge")
+          window.location.href = "/dashboard/challenge";
       }
     }
     const { upload } = nextProps.image;
@@ -126,7 +201,7 @@ class EditChallenge extends Component {
     const {challenge} = this.props.challenge;
     var RO = [], SO = [], SP = [], RP = [], UA = [];
 
-    this.state.senderPair.map(item=>{
+    this.state.appUsage.map(item=>{
       UA.push(item.value);
     })
 
@@ -169,7 +244,7 @@ class EditChallenge extends Component {
       console.log(item);
     })
     this.state.receiverPair.map(item=>{
-      SP.push(item.value);
+      RP.push(item.value);
       console.log(item);
     })
     obj.senderPair = SP;
@@ -238,7 +313,8 @@ class EditChallenge extends Component {
     const {challenge} = this.props.challenge;
     console.log(challenge);
     console.log(challengeCategories)
-    console.log(this.state.answers.map(item=>item.description));
+    console.log(this.state.defaultAppUsage.map(item=>item));
+    
     return (
       <div className='main-content'>
         <div className='container-fluid'>
@@ -328,6 +404,7 @@ class EditChallenge extends Component {
                       <Row>
                       <Col className='w-40'>
                             <Multi
+                              defaultValue = {this.state.defaultAppUsage}
                               name='appUsage'
                               label='Uso de la App'
                               items={Ussage}
@@ -397,6 +474,7 @@ class EditChallenge extends Component {
                         <Row>
                           <Col className='w-40'>
                             <Multi
+                              defaultValue = {this.state.defaultSenderOrientation}
                               name='senderOrientation'
                               label='Orientacion Remitante'
                               items={Orientation}
@@ -405,6 +483,7 @@ class EditChallenge extends Component {
                           </Col>
                           <Col className='w-40'>
                             <Multi
+                            defaultValue = {this.state.defaultReceiverOrientation}
                               name='receiverOrientation'
                               label='Orientacion Destinatario'
                               items={Orientation}
@@ -418,6 +497,7 @@ class EditChallenge extends Component {
                         <Row>
                           <Col className='w-40'>
                             <Multi
+                              defaultValue = {this.state.defaultSenderPair}
                               name='senderPair'
                               label='Pareja Remitante'
                               items={Pair}
@@ -426,6 +506,7 @@ class EditChallenge extends Component {
                           </Col>
                           <Col className='w-40'>
                             <Multi
+                              defaultValue = {this.state.defaultReceiverPair}
                               name='receiverPair'
                               label='Pareja Destinatario'
                               items={Pair}

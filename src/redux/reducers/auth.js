@@ -26,7 +26,6 @@ export default function (state = initialState, action) {
         loading: false,
         user: payload,
       };
-    case REGISTER_SUCCESS:
     case LOG_IN_SUCCESS:
       localStorage.setItem("token", payload.token);
       const decoded = jwt_decode(payload.token);
@@ -37,6 +36,14 @@ export default function (state = initialState, action) {
         user: decoded,
         loading: true,
       };
+      case REGISTER_SUCCESS:
+          return {
+            ...state,
+            ...payload,
+            isAuthenticated: true,
+            user: payload,
+            loading: true,
+          };
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOG_OUT:
