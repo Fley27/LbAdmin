@@ -7,33 +7,16 @@ import DEMO from "../../store/constant";
 import avatar1 from "../../assets/images/user/avatar-1.jpg";
 import avatar2 from "../../assets/images/user/avatar-2.jpg";
 import avatar3 from "../../assets/images/user/avatar-3.jpg";
-import { Link, withRouter } from "react-router-dom";
+import {  withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import axios from "axios";
-import {
-  registerBranch,
-  get_branches,
-  deleteBranch,
-  get_batches,
-  registerBatch,
-  deleteBatch,
-} from "../actions/branchActions";
-import { get_coach_view2_axios } from "../actions/coach2actions";
-import classnames from "classnames";
 
 class Dashboard extends React.Component {
   componentDidMount() {
-    /* this._isMounted = true; */
-    console.log(
-      "On coach page this is state " + this.props.auth.isAuthenticated
-    );
-
     // If logged in and user navigates to Register page, should redirect them to dashboard
     if (!this.props.auth.isAuthenticated) {
       this.props.history.push("../auth/signin-1");
     }
-    
   }
   render() {
     const tabContent = (
@@ -783,24 +766,10 @@ class Dashboard extends React.Component {
 }
 
 Dashboard.propTypes = {
-  registerBranch: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
-  coach2: PropTypes.object.isRequired,
-  branch: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors,
-  coach2: state.coach2,
-  branch: state.branch,
 });
-export default connect(mapStateToProps, {
-  registerBranch,
-  get_branches,
-  get_coach_view2_axios,
-  get_batches,
-  registerBatch,
-  deleteBatch,
-})(withRouter(Dashboard));
+export default connect(mapStateToProps)(withRouter(Dashboard));

@@ -1,9 +1,7 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 
 import "./../../../assets/scss/style.scss";
 import Aux from "../../../hoc/_Aux";
-import Breadcrumb from "../../../App/layout/AdminLayout/Breadcrumb/index";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { login } from "../../../redux/actions/auth";
@@ -24,11 +22,12 @@ class BranchSelector extends React.Component {
     if (this.props.auth.isAuthenticated) {
       if (this.props.auth.user) {
         if (this.props.auth.user.userType.toLowerCase() === "admin") {
-          this.props.history.push("/dashboard");
+         // this.props.history.push("/dashboard");
+          console.log("states changed");
         }
       }
     }
-    console.log("states changed");
+    
   }
   componentWillReceiveProps(nextProps) {
     console.log( nextProps.auth);
@@ -63,7 +62,6 @@ class BranchSelector extends React.Component {
     const { errors } = this.state;
     return (
       <Aux>
-        <Breadcrumb />
         <div className='auth-wrapper'>
           <div className='auth-content'>
             <div className='auth-bg'>

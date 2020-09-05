@@ -17,7 +17,6 @@ const AdminLayout = Loadable({
 class App extends Component {
   render() {
     const menu = routes.map((route, index) => {
-      console.log("A");
       return route.component ? (
         <Route
           key={index}

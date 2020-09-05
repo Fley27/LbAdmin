@@ -17,9 +17,10 @@ import setAuthToken from "./utils/setAuthToken";
 import { loadUser, logout } from "./redux/actions/auth";
 
 // Check for token to keep user logged in
-if (localStorage.getItem("token") !== "undefined") {
+if (localStorage.getItem("token") !== "undefined" &&  localStorage.getItem("token") !== null ) {
   // Set auth token header auth
   const token = localStorage.getItem("token");
+  console.log(token)
   setAuthToken(token);
   // Decode token and get user info and exp
   const decoded = jwt_decode(token);
@@ -41,7 +42,7 @@ const app = (
   <Provider store={store}>
     {/* <Provider store={storeauth}>
     <Provider store={storeb}> */}
-    <BrowserRouter basename={config.basename}>
+    <BrowserRouter>
       {/* basename="/datta-able" */}
       <App />
     </BrowserRouter>
