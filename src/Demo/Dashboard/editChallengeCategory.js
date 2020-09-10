@@ -9,6 +9,8 @@ import { connect } from "react-redux";
 import { editChallengeCategory,  } from "../../redux/actions/challengeCategory";
 import { loadChallengeType } from "../../redux/actions/challengeType";
 import { uploadImage } from "../../redux/actions/image";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./input.css";
 
 class EditChallengeCategory extends Component {
@@ -29,7 +31,7 @@ class EditChallengeCategory extends Component {
   componentDidMount() {
     this.props.loadChallengeType();
     const {challengeCategory} = this.props.challengeCategory;
-    if(!challengeCategory) this.props.history.push("/dashboard/default");
+    if(!challengeCategory) return this.props.history.push("/dashboard");
     const {identifier, name } = challengeCategory;
     this.setState({identifier, name});
     if(challengeCategory.categoryType){
@@ -56,8 +58,32 @@ class EditChallengeCategory extends Component {
               isEdited: false
             });
             this.props.history.push("/dashboard/challengeCategory")
+        }else{
+          if(nextProps.alert.msg){
+            toast.error( `${nextProps.alert.msg}`, {
+              position: "top-center",
+              autoClose: 3500,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+          }
         }
         this.setState({isEdited : false});
+    }else{
+      if(nextProps.alert.msg){
+        toast.error( `${nextProps.alert.msg}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
     }
     if (upload) {
       this.setState({ icon: upload.filepath, filename: upload.filename  });
@@ -102,6 +128,7 @@ class EditChallengeCategory extends Component {
     const { challengeTypes } = this.props.challengeType;
     return (
       <div className='main-content w-80'>
+        <ToastContainer />
         <div className='container-fluid'>
           <div className='row'>
             <div className='col-md-12'>
@@ -227,12 +254,14 @@ EditChallengeCategory.propTypes = {
   uploadImage: PropTypes.func.isRequired,
   challengeCategory: PropTypes.object.isRequired,
   challengeType: PropTypes.object.isRequired,
+  alert: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   challengeCategory: state.challengeCategory,
   challengeType: state.challengeType,
   image: state.image,
+  alert: state.alert
 });
 
 export default connect(mapStateToProps, {

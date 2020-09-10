@@ -7,6 +7,10 @@ import { connect } from "react-redux";
 import { login } from "../../../redux/actions/auth";
 import classnames from "classnames";
 import logo from "../../../assets/images/logo/libidoon.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 
 class BranchSelector extends React.Component {
   constructor() {
@@ -22,28 +26,49 @@ class BranchSelector extends React.Component {
     if (this.props.auth.isAuthenticated) {
       if (this.props.auth.user) {
         if (this.props.auth.user.userType.toLowerCase() === "admin") {
-         // this.props.history.push("/dashboard");
-          console.log("states changed");
+          this.props.history.push("/dashboard");
         }
       }
     }
     
   }
   componentWillReceiveProps(nextProps) {
-    console.log( nextProps.auth);
     if (nextProps.auth.isAuthenticated) {
       const {user} = nextProps.auth;
        if(user){
-        const {userType} = user;
-        console.log(user);
-        console.log(`${userType}`);
-        if (userType.toLowerCase() === "admin") {
-          this.props.history.push("/dashboard/");
-        }
+          const {userType} = user;
+          console.log(user);
+          console.log(`${userType}`);
+          if (userType.toLowerCase() === "admin") {
+            if(nextProps.alert.msg){
+              toast.success( `${nextProps.alert.msg}`, {
+                position: "top-center",
+                autoClose: 3500,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              })}
+            this.props.history.push("/dashboard/");
+          }
        }
+    }else{
+      if(nextProps.alert.msg){
+        toast.error( `${nextProps.alert.msg}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: 100,
+        })
+      }
     }
-    console.log("THis is after login response gets in nextprop and state is");
+
   }
+
   onChange = (e) => {
     this.setState({ [e.target.id]: e.target.value });
   };
@@ -62,6 +87,7 @@ class BranchSelector extends React.Component {
     const { errors } = this.state;
     return (
       <Aux>
+        <ToastContainer />
         <div className='auth-wrapper'>
           <div className='auth-content'>
             <div className='auth-bg'>
@@ -144,12 +170,12 @@ class BranchSelector extends React.Component {
 BranchSelector.propTypes = {
   login: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
+  alert: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors,
+  alert: state.alert
 });
 
 export default connect(mapStateToProps, { login })(BranchSelector);

@@ -39,11 +39,12 @@ export const addChallengeType = (challengeTypeData) => async (dispatch) => {
       type: ADD_CHALLENGETYPE_SUCCESS,
       payload: res.data.challengeType,
     });
+    dispatch(setAlert(`It's saved successly.`, ""));
   } catch (error) {
     dispatch({
       type: ADD_CHALLENGETYPE_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -70,11 +71,12 @@ export const editChallengeType = (challengeTypeData) => async (dispatch) => {
       type: EDIT_CHALLENGETYPE_SUCCESS,
       payload: res.data.challengeType,
     });
+    dispatch(setAlert(`It's edited successly.`, ""));
   } catch (error) {
     dispatch({
       type: EDIT_CHALLENGETYPE_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -99,11 +101,12 @@ export const deleteChallengeType = (challengeTypeData) => async (dispatch) => {
       type: DELETE_CHALLENGETYPE_SUCCESS,
       payload: res.data.success,
     });
+    dispatch(setAlert(`It's deleted successly.`, ""));
   } catch (error) {
     dispatch({
       type: DELETE_CHALLENGETYPE_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -122,7 +125,7 @@ export const loadChallengeType = () => async (dispatch) => {
     dispatch({
       type: FETCH_CHALLENGETYPE_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -151,6 +154,6 @@ export const selectChallengeType = (challengeTypeData) => async (dispatch) => {
     dispatch({
       type: SELECT_CHALLENGETYPE_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };

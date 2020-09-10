@@ -39,10 +39,12 @@ export const addChallenge = (data) => async (dispatch) => {
       type: ADD_CHALLENGE_SUCCESS,
       payload: res.data.challenge,
     });
+    dispatch(setAlert(`It's saved successly.`, ""));
   } catch (error) {
     dispatch({
       type: ADD_CHALLENGE_FAIL,
     });
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -69,10 +71,12 @@ export const editChallenge = (challengeData) => async (
       type: EDIT_CHALLENGE_SUCCESS,
       payload: res.data,
     });
+    dispatch(setAlert(`It's editef successly.`, ""));
   } catch (error) {
     dispatch({
       type: EDIT_CHALLENGE_FAIL,
     });
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -98,11 +102,12 @@ export const deleteChallenge = (challengeData) => async (
       type: DELETE_CHALLENGE_SUCCESS,
       payload: res.data.success,
     });
+    dispatch(setAlert(`It's deleted successly.`, ""));
   } catch (error) {
     dispatch({
       type: DELETE_CHALLENGE_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -117,13 +122,11 @@ export const loadChallenge = () => async (dispatch) => {
       type: FETCH_CHALLENGE_SUCCESS,
       payload: res.data.challenges,
     });
-
-    dispatch(setAlert(`Exito`, "primary"));
   } catch (error) {
     dispatch({
       type: FETCH_CHALLENGE_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 

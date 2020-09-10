@@ -9,6 +9,8 @@ import { connect } from "react-redux";
 import { addChallengeCategory,  } from "../../redux/actions/challengeCategory";
 import { loadChallengeType } from "../../redux/actions/challengeType";
 import { uploadImage } from "../../redux/actions/image";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./input.css";
 
 class AddChallengeCategory extends Component {
@@ -43,6 +45,19 @@ class AddChallengeCategory extends Component {
         file: null,
         filename: ""
       });
+      this.props.history.push('/challenge/challengecategory');
+    }else{
+      if(nextProps.alert.msg){
+        toast.error( `${nextProps.alert.msg}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
     }
     if (upload) {
       this.setState({ icon: upload.filepath, filename: upload.filename  });
@@ -87,6 +102,7 @@ class AddChallengeCategory extends Component {
 
     return (
       <div className='main-content w-80'>
+        <ToastContainer />
         <div className='container-fluid'>
           <div className='row'>
             <div className='col-md-12'>
@@ -212,12 +228,14 @@ AddChallengeCategory.propTypes = {
   uploadImage: PropTypes.func.isRequired,
   challengeCategory: PropTypes.object.isRequired,
   challengeType: PropTypes.object.isRequired,
+  alert: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   challengeCategory: state.challengeCategory,
   challengeType: state.challengeType,
   image: state.image,
+  alert: state.alert
 });
 export default connect(mapStateToProps, {
   addChallengeCategory,

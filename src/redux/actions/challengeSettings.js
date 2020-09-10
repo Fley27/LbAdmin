@@ -30,10 +30,12 @@ export const addChallengeSettings = (data) => async (dispatch) => {
       type: ADD_CHALLENGESETTINGS_SUCCESS,
       payload: res.data,
     });
+    dispatch(setAlert(`It's saved successly.`, ""));
   } catch (error) {
     dispatch({
       type: ADD_CHALLENGESETTINGS_FAIL,
     });
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -53,7 +55,7 @@ export const loadChallengeSettings = () => async (dispatch) => {
     dispatch({
       type: FETCH_CHALLENGESETTINGS_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 

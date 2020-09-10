@@ -29,20 +29,18 @@ export const login = ({ email, password }) => async (dispatch) => {
       body,
       config
     );
-    console.log(res);
+    dispatch(setAlert('Welcome to the panel admin.', ""));
+    
     dispatch({
       type: LOG_IN_SUCCESS,
       payload: res.data,
     });
+   
   } catch (error) {
-    console.log(` Error registering ${error}`);
-    const errors = error.response.data.errors;
-    if (errors) {
-      errors.forEach((err) => dispatch(setAlert(err.msg, "danger")));
-    }
     dispatch({
       type: LOG_IN_FAIL,
     });
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 //register user

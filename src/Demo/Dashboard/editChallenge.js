@@ -10,6 +10,8 @@ import { uploadImage } from "../../redux/actions/image";
 import Multi from "../Forms/multiSelect";
 import { Orientation, Pair, Ussage } from "../data/data";
 import AddChallengeAnswer from "./addChallengeAnswer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./user.scss";
 
 
@@ -172,6 +174,18 @@ class EditChallenge extends Component {
           });
 
           window.location.href = "/dashboard/challenge";
+      }else{
+        if(nextProps.alert.msg){
+          toast.error( `${nextProps.alert.msg}`, {
+            position: "top-center",
+            autoClose: 3500,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+        }
       }
     }
     const { upload } = nextProps.image;
@@ -317,6 +331,7 @@ class EditChallenge extends Component {
     
     return (
       <div className='main-content'>
+        <ToastContainer />
         <div className='container-fluid'>
           <div className='row'>
             <div className='col-md-12'>

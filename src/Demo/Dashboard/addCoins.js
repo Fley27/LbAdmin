@@ -8,6 +8,9 @@ import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { editCoinsUser } from "../../redux/actions/user";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 class AddCoins extends Component {
   constructor(props) {
     super(props);
@@ -26,9 +29,31 @@ class AddCoins extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.user.user) {
+    if (nextProps.user.user) {
       console.log(`${this.props.user.user}`);
-      this.props.history.push("/dashboard/default");
+      if(nextProps.alert.msg){
+        toast.success( `${nextProps.alert.msg}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
+    }else{
+      if(nextProps.alert.msg){
+        toast.error( `${nextProps.alert.msg}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
     }
   }
 
@@ -61,6 +86,7 @@ class AddCoins extends Component {
     const { user } = this.props.user;
     return (
       <Row md={12}>
+        <ToastContainer />
         <Col md={4}>
           <Card className='left-card'>
             <Col md={12}>{user ? user.profile.name : ""}</Col>
@@ -138,12 +164,15 @@ class AddCoins extends Component {
 
 AddCoins.propTypes = {
   auth: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  alert: PropTypes.object.isRequired,
   editCoinsUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   user: state.user,
+  alert: state.alert
 });
 export default connect(mapStateToProps, { editCoinsUser })(
   withRouter(AddCoins)

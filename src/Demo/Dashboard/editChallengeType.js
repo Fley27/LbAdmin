@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 import { Col, Button, Form, Row } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./user.scss";
 
@@ -20,7 +22,7 @@ class EditChallengeType extends Component {
 
   componentDidMount() {
     const { challengeType } = this.props.challengeType;
-    if (!challengeType) this.props.history.push("/dashboard/default");
+    if (!challengeType) return this.props.history.push("/dashboard/default");
     else {
       const { _id, identifier, name } = challengeType;
       this.setState({ id: _id, identifier: identifier, name: name });
@@ -32,6 +34,29 @@ class EditChallengeType extends Component {
     if (!challengeType) {
       console.log(`${challengeType}`);
       this.setState({ id: "", identifier: "", name: "" });
+      if(nextProps.alert.msg){
+        toast.success( `${nextProps.alert.msg}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
+    }else{
+      if(nextProps.alert.msg){
+        toast.error( `${nextProps.alert.msg}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
     }
   }
 
@@ -52,6 +77,7 @@ class EditChallengeType extends Component {
 
     return (
       <div className='main-content w-80'>
+        <ToastContainer />
         <div className='container-fluid'>
           <div className='row'>
             <div className='col-md-12'>
@@ -108,10 +134,12 @@ class EditChallengeType extends Component {
 EditChallengeType.propTypes = {
   editChallengeType: PropTypes.func.isRequired,
   challengeType: PropTypes.object.isRequired,
+  alert: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   challengeType: state.challengeType,
+  alert: state.alert
 });
 export default connect(mapStateToProps, { editChallengeType })(
   withRouter(EditChallengeType)

@@ -10,7 +10,7 @@ import Avatar1 from "../../../../../assets/images/user/avatar-1.jpg";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { logoutUser } from "../../../../../Demo/actions/authActions";
+import { logout } from "../../../../../redux/actions/auth";
 
 class NavRight extends Component {
   constructor(props) {
@@ -25,9 +25,18 @@ class NavRight extends Component {
   onLogoutClick = (e) => {
     console.log("clicked logout");
     e.preventDefault();
-    this.props.logoutUser();
-    this.props.history.push("../../auth/signin-1");
+    this.props.logout();
   };
+
+  componentWillReceiveProps(nextProps) {
+    console.log( nextProps.auth);
+    if (!nextProps.auth.isAuthenticated) {
+      const {user} = nextProps.auth;
+       if(!user){ 
+        this.props.history.push("/auth/signin-1");
+       }
+    }
+  }
 
   componentDidMount() {}
 
@@ -186,11 +195,11 @@ class NavRight extends Component {
   }
 }
 NavRight.propTypes = {
-  logoutUser: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
-export default withRouter(connect(mapStateToProps, { logoutUser })(NavRight));
+export default withRouter(connect(mapStateToProps, { logout })(NavRight));

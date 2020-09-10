@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Col, Button, Form, Row } from "react-bootstrap";
 import AddChallengeAnswer from "./addChallengeAnswer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./user.scss";
 
 
@@ -66,7 +68,19 @@ class AddChallenge extends Component {
         filename: "",
         DurationHours: "",
       });
-      this.props.history.push("/dashboard/challenge")
+      window.location.href = "/dashboard/challenge";
+    }else{
+      if(nextProps.alert.msg){
+        toast.error( `${nextProps.alert.msg}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
     }
     const { upload } = nextProps.image;
     if (upload) {
@@ -213,6 +227,7 @@ class AddChallenge extends Component {
     console.log(this.state.answers.map(item=>item.image));
     return (
       <div className='main-content'>
+        <ToastContainer />
         <div className='container-fluid'>
           <div className='row'>
             <div className='col-md-12'>
@@ -514,7 +529,8 @@ const mapStateToProps = (state) => ({
   challengeType: state.challengeType,
   challengeCategory: state.challengeCategory,
   image: state.image,
-  challenge: state.challenge
+  challenge: state.challenge,
+  alert: state.alert
 });
 export default connect(mapStateToProps, { addChallenge, loadChallengeCategory, loadChallengeType, uploadImage, })(
   withRouter(AddChallenge)

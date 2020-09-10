@@ -36,7 +36,7 @@ export const loadUsers = () => async (dispatch) => {
     dispatch({
       type: FETCH_USER_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -68,7 +68,7 @@ export const blockUser = (userData) => async (dispatch) => {
     dispatch({
       type: BLOCK_USER_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -98,7 +98,7 @@ export const deleteUser = (userData) => async (dispatch) => {
     dispatch({
       type: DELETE_USER_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -129,7 +129,7 @@ export const selectUser = (userData) => async (dispatch) => {
     dispatch({
       type: SELECT_USER_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -157,11 +157,12 @@ export const editCoinsUser = (userData) => async (dispatch) => {
       type: EDIT_COINS_SUCCESS,
       payload: res.data.user,
     });
+    dispatch(setAlert(`It's edited successly.`, ""));
   } catch (error) {
     dispatch({
       type: EDIT_COINS_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };
 
@@ -190,6 +191,6 @@ export const addUser = (userData) => async (dispatch) => {
     dispatch({
       type: ADD_USER_FAIL,
     });
-    dispatch(setAlert(`Error ${error}`, "danger"));
+    dispatch(setAlert(error.response.data.msg, "danger"));
   }
 };

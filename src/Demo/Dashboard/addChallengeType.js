@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-
 import { Col, Button, Form, Row } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./user.scss";
 
@@ -18,9 +19,32 @@ class AddChallengeType extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.challengeType.challengeType) {
+    if (nextProps.challengeType.challengeType) {
       console.log(`${this.props.challengeType}`);
       this.setState({ identifier: "", name: "" });
+      if(nextProps.alert.msg){
+        toast.success( `${nextProps.alert.msg}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
+    }else{
+      if(nextProps.alert.msg){
+        toast.error( `${nextProps.alert.msg}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
     }
   }
 
@@ -35,12 +59,14 @@ class AddChallengeType extends Component {
     e.preventDefault();
     this.props.addChallengeType(this.state);
   };
+  
   render() {
     const { challengeType } = this.props.challengeType;
     console.log(challengeType);
 
     return (
       <div className='main-content w-80'>
+        <ToastContainer />
         <div className='container-fluid'>
           <div className='row'>
             <div className='col-md-12'>
